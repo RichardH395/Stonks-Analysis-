@@ -134,7 +134,12 @@ Sub AllStocksAnalysisRefactored()
 End Sub
 
 ### Insight
-* When dealing with the original DQ Analysis, we're left with the agreggate of every single function and progress, the code is very rudimentary and overflowing with manual data and code. Processing time for all of this is good enough, but can be improved through refactoring. 
+* When dealing with the original DQ Analysis, we're left with the agreggate of every single function and progress, the code is very rudimentary and overflowing with manual data and code. Processing time for all of this is good enough, but can be improved through refactoring. We see this originally in all it's different variations and updates around a few seconds, after we take the code and create a new spreadsheet, we create a new and improved macro/VBA Script that cuts the processing time to under a second for 2017 and 2018 as shown below.
+* ![2017](https://github.com/RichardH395/StonksAnalysis/blob/main/Resources/2017.png) 
+* 
+* ![2018](https://github.com/RichardH395/StonksAnalysis/blob/main/Resources/2018.png)
+* 
+* Not only are we cutting down the time, we're also providing a template to expand the potential and power of this macro. We could add new Stocks, we can provide user input to pull specific metrics and data summaries. 
 
 #### What are the advantages or disadvantages of refactoring code?
 * The advantages of refactoring code is being able to take different frameworks and lenses when it comes to coding and find which style, syntax, and methodology are the most effecient, concise, and logical. Every coder will have very similar yet different layouts and structure. Through debugging and inquiry, one is able to see which method is better when it comes to processing and presneting the data highlighted within the code. At the same time, there's also disadvantages to this; coders will have more or less the same code. The matter lies in the difference, when working through it, what works for one code, wont necessarily work for the other and can make or break a VBA script depending on how the data is pulled and utilized. Refactoring is essentially a double edged sword, it begs the question of if it's not broken, dont fix it or reinventing the wheel. This varies and the volume of data and the scale of these analysis projects.
