@@ -6,47 +6,138 @@
 ### Purpose
 * Taking our initial code for Technical Analysis on 12 similar stocks and taking yearly return and total volume for the past 2 years to identify and highlight any key metric and trends that provide insight on which stock is worth investing in
 
-## Analysis and Challenges
-
-### Outcomes based on Launch Date 
-* This exploratory data analysis was performed on thousands of previous crowdfunding projects to highlight key metrics such as outcomes based on various factors such as funding goals, timelines, budgets, type of campaigns. 
-* By taking the data set and using conditonal formatting and filters we can create pivot tables and pivot charts the highlight specific data that answers niche questions about these campaigns.  
-* To do this I started with taking the data set and homogenizing it by freezing panes, applying filters and color coding the outcomes for successful, failed cancelled or live campaigns. After, creating new columns I created one for Years to see how each category has done over a yearly period. Taking the date conversion we created using Unix time stamp converters, we're able to focus on the years of these projects by using the Year( ) Function. 
-* Once this has been done we take a Pivot Table using Years and Parent Category to see the outcome of all categories over a year
-![Pivot Table for Outcomes by Launch Date](https://github.com/RichardH395/repo-kickstarter-analysis/blob/main/Pivot%20Table%20for%20Outcomes%20by%20Launch%20Date.png)
-* We can visualize this to show the outcomes of all categories that show how theatre is a very popular category: 
-![Parent Category Outcomes](https://github.com/RichardH395/repo-kickstarter-analysis/blob/main/Parent%20Category%20Outcomes%20.png) 
-* As we can clearly see, Theatre is a popular category. Following up on this we filter categories to look at Theatre specifically to see a more detailed explanation regarding to Louise's question of how Launch dates affect these outcomes. We can take the pivot table and filter for theatre.
-* ![Pivot Table for Theatre Outcomes by Launch Date](https://github.com/RichardH395/repo-kickstarter-analysis/blob/main/Pivot%20Table%20for%20Theatre%20Outcomes%20by%20Launch%20Date%20.png) 
-#### Continuing Further
-* Now that we have the data showing how outcomes are affected by launch date for Theatres, we create a pivot chart to better visualize this trend:
-![Outcomes Based on Launch Date](https://github.com/RichardH395/repo-kickstarter-analysis/blob/main/Outcomes%20Based%20on%20Launch%20Date%20.png)
-This is our first Deliverable, now we have a line chart with markers that show the outcome of the theatre category. We can see that May through July are popular launch dates for successful campaigns. 
-### Outcomes based on Goals
-* To gain insight on how much funding determines whether or not a campaign will be successful we narrow down our search to plays specifally. We create a column with different ranges of funding amounts to see what the range is for each outcome: successful, canceled, and failed and use the CountIf( ) to pull the Goal amounts within each range, see what the outcome was for each respective outcome, goal amount, and populate the spreadsheet. Following this we take the totals using the Sum( ) Function, after this we can take the percentage for every outcome and funding goal amount to see a summary of each outcome at each funding range. By taking the percentage we can create a Pivot table and chart showing the percentages on the Y-axis, and the funding amounts on the X-axis. We now have a template to showcase the percentage of each outcome whether failed or successful. Our findings are displayed here:
-![Outcomes vs Goals](https://github.com/RichardH395/repo-kickstarter-analysis/blob/main/Outcomes%20vs%20Goals%20.png)
-
-
-### Analysis of Outcomes Based on Launch Date
-* As we can see from our findings and graphs, There are three Parent Categories that stand out in terms of both volume and success: Music, Technology, and Theatre. The Parent Category Outcomes Graph easily displays that Theatre is the most prominent Parent Cateogry both in terms of volume and outcomes. Having a large success rate, we can this take this analysis even further by highlighting theatre outcomes specifically. We find that the most successful months that theatres were launch are from May to July. Which is the peak in volume as well. We now have a window for when theatres are most succesful according to when they're launched.
-
-### Analysis of Outcomes Based on Goals
-* Now that we've concluded the peak months for successful theatre campaigns, we can investigate further by looking into the average amounts that these productions require according to their goals. We see that the most prominent range for goal amounts is between 1000-4999, very close to Louise's range for her funding amount. This entails almost half of all the plays; This is good news as it's a very feasible budget with a capacity of higher success. Espescially if they launch in the recommended time frame. We see as the amount increases, especially passed the 20,000 range,  we see a fall off in the number of campaigns but also the success rate drops drastically. This can be due to difficulty in recieving funding and support for such large plays and production. Less is more in this case and Louise can rest easy knowing she has all the checkmarks for a succesful kickstarter campaign for her play *Fever* 
-### Challenges and Difficulties Encountered
-
-After taking the data and formatting it, the difficulty can be in how you can use this data to answer specific questions. Setting up your framework for what you're looking for then to be able to take the data and present it in a way that tells a story can be very visually appealing and easy to consume but also hard to find, if you don't know what you're looking for. 
-
 ## Results
+Sub AllStocksAnalysisRefactored()
 
-#### What are two conclusions you can draw about the Outcomes based on Launch Date?
-* The Two conclusions are that Theatre is the most prominent Parent Category, we take this even further and find that the most successful theatre campaigns launch between May and July. 
-#### What can you conclude about the Outcomes based on Goals?
-* The conclusion from Outcomes based on Goals show that you don't need a large amount to fund a successful campaign, almost half of the campaigns range from 1000 to 4999. This a very financially feasible amount that has the opportunity to be very successful in the sense that less is more. As the amounts get larger they tend to become less successful and less likely to be funded. 
+    Dim startTime As Single
+    Dim endTime  As Single
 
-#### What are some limitations of this dataset?
-* One of the limitation of the data set is that we're dealing with a sample amount of Kickstarter Campaigns, if we were to take every single campaign since Kickstarer's inception, it would provide a more accurate representation of of outcomes and goals for every category and call campaigns. Conveniently, this date set really focuses on theatres, which relates to Louise's inquiry in the first place. Looking historically it's important to see time periods where these categories and sub categories where thriving. This could be due to factors that are can or can not be accounted for when looking at these campaigns. For example: The Pandemic put a halt on Theatres and Plays, how does this get accounted for? Times of economic booms or bust, consumer trends and preference changing with techonoligcal and filming technique enhancements, or times when theatres were more prominent historically? 
+    yearValue = InputBox("What year would you like to run the analysis on?")
 
-* Another Limitation is the data set itself, it provides key metrics but some of these campaigns might or might not be more successful based on the premise of the outcome. What kind of rewards, recognition, concessions are offered for these campaigns? These kind of concessions can determine whether or not an individual decides to fund a campaign. On top of this looking at vast difference in plays. Low budget plays with small scripts and run times might be easier to fund and more likely to succeed, but what about large scale productions? There isn't much information on what funding these campaigns entail, more so what the objective is. 
+    startTime = Timer
+    
+    'Format the output sheet on All Stocks Analysis worksheet
+    Worksheets("All Stocks Analysis").Activate
+    
+    Range("A1").Value = "All Stocks (" + yearValue + ")"
+    
+    'Create a header row
+    Cells(3, 1).Value = "Ticker"
+    Cells(3, 2).Value = "Total Daily Volume"
+    Cells(3, 3).Value = "Return"
 
-#### What are some other possible tables and/or graphs that we could create?
-* Tables and graphs that show ALL metrics and information for every single campaign would tell you about Kickstarter campaigns in general. To continue narrowing dowm, include every single campaign for every category, subcategory, funding, and outcome by compartmentalizing all of these you'd get very specific information regarding what makes each of these campaigns more or less successful and different levels of Funding Goals. Tables and Graphs showing the average time frame for every single category and sub category to get a benchmark of what each specific timeline every campaign should be following if they want to succeed. 
+    'Initialize array of all tickers
+    Dim tickers(12) As String
+    
+    tickers(0) = "AY"
+    tickers(1) = "CSIQ"
+    tickers(2) = "DQ"
+    tickers(3) = "ENPH"
+    tickers(4) = "FSLR"
+    tickers(5) = "HASI"
+    tickers(6) = "JKS"
+    tickers(7) = "RUN"
+    tickers(8) = "SEDG"
+    tickers(9) = "SPWR"
+    tickers(10) = "TERP"
+    tickers(11) = "VSLR"
+    
+    'Activate data worksheet
+    Worksheets(yearValue).Activate
+    
+    'Get the number of rows to loop over
+    RowCount = Cells(Rows.Count, "A").End(xlUp).Row
+    
+    '1a) Create a ticker Index
+    tickerIndex = 0
+
+    '1b) Create three output arrays
+    Dim tickervolumes(12) As Long
+    Dim tickerstartingPrices(12) As Single
+    Dim tickerendingPrices(12) As Single
+    
+    ''2a) Create a for loop to initialize the tickerVolumes to zero.
+    For i = 0 To 11
+        tickervolumes(i) = 0
+        tickerstartingPrices(i) = 0
+        tickerendingPrices(i) = 0
+    Next i
+        
+    ''2b) Loop over all the rows in the spreadsheet.
+    For i = 2 To RowCount
+    
+        '3a) Increase volume for current ticker
+    tickervolumes(tickerIndex) = tickervolumes(tickerIndex) + Cells(i, 8).Value
+        
+        '3b) Check if the current row is the first row with the selected tickerIndex.
+           If Cells(i, 1).Value = tickers(tickerIndex) And Cells(i - 1, 1).Value <> tickers(tickerIndex) Then
+            tickerstartingPrices(tickerIndex) = Cells(i, 6).Value
+        End If
+            
+            
+        
+        '3c) check if the current row is the last row with the selected ticker
+         'If the next row’s ticker doesn’t match, increase the tickerIndex.
+        'If  Then
+            
+        If Cells(i, 1).Value = tickers(tickerIndex) And Cells(i + 1, 1).Value <> tickers(tickerIndex) Then
+            tickerendingPrices(tickerIndex) = Cells(i, 6).Value
+         End If
+
+            '3d Increase the tickerIndex.
+          If Cells(i, 1).Value = tickers(tickerIndex) And Cells(i + 1, 1).Value <> tickers(tickerIndex) Then
+                tickerIndex = tickerIndex + 1
+            End If
+         
+    
+    Next i
+    
+    '4) Loop through your arrays to output the Ticker, Total Daily Volume, and Return.
+    For i = 0 To 11
+        
+       Worksheets("All Stocks Analysis").Activate
+       Cells(4 + i, 1).Value = ticker
+       Cells(4 + i, 2).Value = totalVolume
+       Cells(4 + i, 3).Value = tickerendingPrices(i) / tickerstartingPrices(i) - 1
+        
+        
+    Next i
+    
+    'Formatting
+    Worksheets("All Stocks Analysis").Activate
+    Range("A3:C3").Font.FontStyle = "Bold"
+    Range("A3:C3").Borders(xlEdgeBottom).LineStyle = xlContinuous
+    Range("B4:B15").NumberFormat = "#,##0"
+    Range("C4:C15").NumberFormat = "0.0%"
+    Columns("B").AutoFit
+
+    dataRowStart = 4
+    dataRowEnd = 15
+
+    For i = dataRowStart To dataRowEnd
+        
+        If Cells(i, 3) > 0 Then
+            
+            Cells(i, 3).Interior.Color = vbGreen
+            
+        Else
+        
+            Cells(i, 3).Interior.Color = vbRed
+            
+        End If
+        
+    Next i
+ 
+    endTime = Timer
+    MsgBox "This code ran in " & (endTime - startTime) & " seconds for the year " & (yearValue)
+
+End Sub
+
+### Insight
+* When dealing with the original DQ Analysis, we're left with the agreggate of every single function and progress, the code is very rudimentary and overflowing with manual data and code. Processing time for all of this is good enough, but can be improved through refactoring. 
+
+#### What are the advantages or disadvantages of refactoring code?
+* The advantages of refactoring code is being able to take different frameworks and lenses when it comes to coding and find which style, syntax, and methodology are the most effecient, concise, and logical. Every coder will have very similar yet different layouts and structure. Through debugging and inquiry, one is able to see which method is better when it comes to processing and presneting the data highlighted within the code. At the same time, there's also disadvantages to this; coders will have more or less the same code. The matter lies in the difference, when working through it, what works for one code, wont necessarily work for the other and can make or break a VBA script depending on how the data is pulled and utilized. Refactoring is essentially a double edged sword, it begs the question of if it's not broken, dont fix it or reinventing the wheel. This varies and the volume of data and the scale of these analysis projects.
+#### How do these pros and cons apply to refactoring the original VBA script?
+*  We're able to shorten the length of the "chain" or "loop" by condensing the VBA script through restructuring and reformatting the layout of the original code. Overall this leads to a shorter processing time. By creating an index array and ticker index, fine tuning the code to provide more specific data such as specifying the year and row control, leads to more precise codes and scripts. This becomes more and more important as the amount of data increases and operational effieciency is sustainable and maximized. 
+
